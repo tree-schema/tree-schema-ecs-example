@@ -7,7 +7,7 @@ Note - to run these commands you will need to have the [AWS SAM CLI](https://doc
 # Article 1 - VPC deployment 
 In [the first article](https://treeschema.com/blog/comprehensive-ecs-deployments-vpcs-deployment) the following VPC is deployed, which generally contains the following resources:
 
-![VPC Resources](./imgs/vpc_deployment.jpg?raw=true "VPC Resources")
+![VPC Resources](./imgs/vpc_deployment_v1.jpg?raw=true "VPC Resources")
 
 The VPC can be deployed by running this command from the root directory (change `my-vpc` to the name of the stack you would like):
 
