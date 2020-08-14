@@ -257,18 +257,6 @@ Resources:
 
 Outputs:
 
-  CoreDataCommonLambdaRoleArn:
-    Description: The Arn of the core data common Lambda role.
-    Value: !GetAtt LambdaRole.Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-LambdaRole-${EnvStageName}-Arn"
-
-  CoreDataCloudwatchRole:
-    Description: The Redshift role required to copy data from S3
-    Value: !GetAtt CoreCloudFormationRole.Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-CoreCloudFormationRole-${EnvStageName}-Arn"
-
   GeneralECSCluster:
     Description: The general purpose ECS cluster for Tree Schema
     Value: !Ref GeneralECSCluster
