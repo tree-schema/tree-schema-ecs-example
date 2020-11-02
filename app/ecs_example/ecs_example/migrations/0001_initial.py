@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('created_ts', models.DateTimeField(default=datetime.datetime.now, verbose_name='User created timestamp')),
             ],
             options={
-                'db_table': 'users',
+                'db_table': 'email_users',
             },
         ),
     ]

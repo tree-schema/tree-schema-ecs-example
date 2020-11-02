@@ -5,7 +5,7 @@ Parameters:
 
   EnvStageName:
     Type: String
-    Default: dev
+    Default: prod
     Description: "The Environment name (e.g. dev, prod, etc.)"
 
   CIDRBlockIP:
@@ -541,17 +541,17 @@ Outputs:
     Export:
       Name: !Sub "${AWS::StackName}-DbSecurityGroup-${EnvStageName}"
 
-  LambdaSecurityGroups:
+  AppSecurityGroup:
     Description: Security groups to be given to Lambda functions in this VPC
     Value: !Join [',', [!GetAtt AppSecurityGroup.GroupId]]
     Export:
-      Name: !Sub "${AWS::StackName}-LambdaSecurityGroups-${EnvStageName}"
+      Name: !Sub "${AWS::StackName}-AppSecurityGroup-${EnvStageName}"
 
-  LambdaSubnets:
+  AppSubnets:
     Description: Subnets to be given to the Lambda functions in this VPC.
     Value: !Join [',', [!Ref PrivateSubnet1, !Ref PrivateSubnet2]]
     Export:
-      Name: !Sub "${AWS::StackName}-LambdaSubnets-${EnvStageName}"
+      Name: !Sub "${AWS::StackName}-AppSubnets-${EnvStageName}"
 
   LoadBalancerSubnets:
     Description: Subnets to be given to the Load Balancers in this VPC.

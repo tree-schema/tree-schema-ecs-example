@@ -9,7 +9,7 @@ class User(models.Model):
     created_ts = models.DateTimeField(_("User created timestamp"), default=dt.datetime.now)
 
     class Meta:
-        db_table = 'users'
+        db_table = 'email_users'
 
     def __str__(self):
         return f'email: {self.email}'

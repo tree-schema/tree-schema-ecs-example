@@ -1,6 +1,6 @@
 # tree-schema-ecs-example
 
-This repo contains the code, templates and other development resources that along with the Tree Schema articles for creating a [complete ECS deployment](https://treeschema.com/blog/)
+This repo contains the code, templates and other development resources that along with the [Tree Schema](https://treeschema.com) articles for creating a [complete ECS deployment](https://treeschema.com/blog/)
 
 Note - to run these commands you will need to have the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) installed.
 
@@ -45,10 +45,49 @@ The application can be found under the `app` directory and generally has the fol
 This repo can be cloned and the app can be run locally. Redis must be running locally on port 6379. Execute the following command in the `app` directory to start Django:
 
 ```bash 
-python manage.py runserver 0.0.0.0:8001 
+python manage.py runserver 0.0.0.0:8000
 ```
 And in a second terminal, but the same directory, run the following to start Celery:
 ```bash 
 celery -A ecs_example worker -l info 
 ```
 
+
+# Article 4 - Deploying the App to ECS
+In [the fourth article](https://treeschema.com/blog/comprehensive-ecs-deployments-database-and-ecs-deploy/) the app is deployed to ECS.
+
+Assuming that you have been following along with the other walkthroughs, you will only need to update a few parameters in the `mapping` section of the template. The template 
+can be found here:
+```bash 
+./templates/django-app.yaml
+```
+
+The containers can be built with the following command from this directory:
+
+```bash 
+sh build.sh
+```
+
+And can be deployed with 
+```bash 
+sam deploy -t templates/django-app.yaml \
+--stack-name django-ecs-app \
+--capabilities CAPABILITY_IAM  
+```
+
+
+# Article 5 - Getting Ready for Prod
+In [the fifth and final article](https://treeschema.com/blog/comprehensive-ecs-production-ready-application/) the finishing touches are put in place to use the app in production. Emails are sent with SES, autoscaling is put in place and Route53 sends traffic from our domain to the app.
+
+With the new updates, the containers will need to be rebuilt with the following command from this directory:
+
+```bash 
+sh build.sh
+```
+
+And the services will need to be updated / redeployed with the same command.
+```bash 
+sam deploy -t templates/django-app.yaml \
+--stack-name django-ecs-app \
+--capabilities CAPABILITY_IAM  
+```

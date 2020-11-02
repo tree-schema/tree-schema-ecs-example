@@ -11,6 +11,7 @@
 
   <body>
         <div class="container-flex text-center">
+            <div hidden>{% csrf_token %}</div>
             <div class="row mt-2">
                 <div class="col">
                     <h1>Hello World! today's date is {{ curr_dt }}</h1>

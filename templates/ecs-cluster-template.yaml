@@ -5,11 +5,15 @@ Description: Common, reusable components
 Parameters:
   EnvStageName:
     Type: String
-    Default: dev
+    Default: prod
+    Description: "The Environment name (e.g. dev, prod, etc.)"
+  Region:
+    Type: String
+    Default: us-east-1
     Description: "The Environment name (e.g. dev, prod, etc.)"
   YourUserId:
     Type: String
-    Default: my-user-id
+    Default: your-username
     Description: "The user ID that should have direct access to S3 static files resources"
 
 Resources:
@@ -39,6 +43,24 @@ Resources:
             Action: 'sts:AssumeRole'
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'
+
+  ECSExecutionRolePolicy:
+    Type: AWS::IAM::Policy
+    DependsOn:
+      - EcsTaskRole
+    Description: Setting IAM Policy for updating S3 notification configs
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-ECSExecutionRole-${EnvStageName}"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - secretsmanager:GetSecretValue
+            Resource: # Any resource
+              - "*"
+      Roles:
+        - !Ref ECSExecutionRole
 
   # A role for the containers
   EcsTaskRole:
@@ -172,7 +194,7 @@ Resources:
         - DomainName: !Join
             - ""
             - - !Ref StaticFilesBucket
-              - ".s3.amazonaws.com"
+              - !Sub ".s3-${Region}.amazonaws.com"
           Id: myS3Origin
           S3OriginConfig:
             OriginAccessIdentity: !Join
@@ -268,6 +290,12 @@ Outputs:
     Value: !GetAtt ECSAutoScalingRole.Arn
     Export:
       Name: !Sub "${AWS::StackName}-ECSAutoScalingRole-${EnvStageName}-Arn"
+
+  ECSTaskRole:
+    Description: The arn of the EcsTaskRole
+    Value: !GetAtt EcsTaskRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-EcsTaskRole-${EnvStageName}-Arn"
 
   ECSExecutionRole:
     Description: The arn of the ECSExecutionRole

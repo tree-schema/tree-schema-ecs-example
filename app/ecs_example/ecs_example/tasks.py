@@ -1,6 +1,7 @@
 import time
 
 from celery import shared_task
+from django.conf import settings
 from django.core.mail import send_mail
 
 from . import models
@@ -22,11 +23,10 @@ def send_async_email(email: str) -> None:
         send_mail(
             'An ECS Example Email',              # Title
             'The async email works!!',           # Message
-            'asher@treeschema.com',              # From
+            settings.DEFAULT_FROM_EMAIL,         # From
             [email],                             # To
             fail_silently=False
         )
     except models.User.DoesNotExist:
         raise EmailDoesNotExist()
     
-

@@ -9,7 +9,7 @@ from .tasks import send_async_email
 
 def get_landing_page(request):
     curr_dt = dt.datetime.now().strftime('%Y-%m-%d')
-    template = loader.get_template(f'landing_page.html')
+    template = loader.get_template('landing_page.html')
     return HttpResponse(template.render({'curr_dt': curr_dt}, request))
 
 
@@ -35,3 +35,7 @@ def manage_email_action(request):
 
     
     return JsonResponse({'success': success, 'message': resp_msg})
+
+
+def health_check(request):
+    return HttpResponse('ok')
