@@ -237,7 +237,7 @@ Resources:
                 Fn::Join:
                   - "-"
                   - - !Ref VpcStackName
-                    - LambdaSubnets
+                    - AppSubnets
                     - !Ref EnvStageName
           SecurityGroups: !Split
             - ','
@@ -245,7 +245,7 @@ Resources:
                 Fn::Join:
                   - '-'
                   - - !Ref VpcStackName
-                    - LambdaSecurityGroups
+                    - AppSecurityGroup
                     - !Ref EnvStageName
       LoadBalancers:
         - ContainerName: !Ref NginxTaskName 
